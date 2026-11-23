@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'api_service.dart';
+
 class AuthService {
   AuthService._();
 
@@ -15,8 +17,25 @@ class AuthService {
   };
 
   String? _currentRole;
+  String? _currentUsername;
 
   String? get currentRole => _currentRole;
+  String? get currentUsername => _currentUsername;
+
+  Future<String?> cloudLogin(String username, String password) async {
+    final payload = await ApiService.instance.login(
+      username: username,
+      password: password,
+    );
+    final user = payload['user'];
+    if (user is! Map) {
+      throw StateError('Respons login cloud tidak memiliki data pengguna.');
+    }
+    _currentUsername = user['username']?.toString();
+    final role = user['role']?.toString();
+    _currentRole = role == 'teacher' ? 'Guru' : 'Admin';
+    return _currentRole;
+  }
 
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -75,6 +94,16 @@ class AuthService {
     return true;
   }
 
+  Future<void> registerCloudTeacher({
+    required String username,
+    required String password,
+  }) {
+    return ApiService.instance.registerTeacher(
+      username: username,
+      password: password,
+    );
+  }
+
   Future<void> _saveAccounts() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_storageKey, jsonEncode(_accounts));
@@ -90,6 +119,7 @@ class AuthService {
     }
 
     _currentRole = account['role'];
+    _currentUsername = normalizedUsername;
     return _currentRole;
   }
 }

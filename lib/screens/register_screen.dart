@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
+import '../config/app_config.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
@@ -37,11 +38,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = true;
     });
 
-    final success = await AuthService.instance.registerAccount(
-      username: _usernameController.text,
-      password: _passwordController.text,
-      role: 'Guru',
-    );
+    try {
+      if (AppConfig.useApi) {
+        await AuthService.instance.registerCloudTeacher(
+          username: _usernameController.text,
+          password: _passwordController.text,
+        );
+      } else {
+        final success = await AuthService.instance.registerAccount(
+          username: _usernameController.text,
+          password: _passwordController.text,
+          role: 'Guru',
+        );
+        if (!success) {
+          throw StateError('Username sudah dipakai atau data tidak valid.');
+        }
+      }
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      return;
+    }
 
     if (!mounted) {
       return;
@@ -50,15 +70,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = false;
     });
-
-    if (!success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Username sudah dipakai atau data tidak valid.'),
-        ),
-      );
-      return;
-    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Akun berhasil dibuat. Silakan login.')),
@@ -134,8 +145,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value == null || value.trim().isEmpty) {
                               return 'Password wajib diisi';
                             }
-                            if (value.trim().length < 4) {
-                              return 'Password minimal 4 karakter';
+                            if (value.trim().length < 8) {
+                              return 'Password minimal 8 karakter';
                             }
                             return null;
                           },

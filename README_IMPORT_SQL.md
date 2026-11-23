@@ -1,47 +1,22 @@
-Importing SQLite data into MySQL
+# Memindahkan database ke Supabase
 
-Recommended direct migration with Node.js
+Schema Supabase yang Anda buat dan berisi 31 tabel kini disimpan di
+[sql/supabase_absensi_qr_schema.sql](sql/supabase_absensi_qr_schema.sql).
+File aslinya tetap ada di Downloads dan tidak diubah.
 
-1) Install dependencies inside `tools/`
+Schema tersebut membuat tabel dalam namespace `absensi_qr`, bukan `public`.
+Karena Anda sudah membuat tabel-tabel ini di Supabase, tidak perlu menjalankan
+ulang schema kecuali memang ingin membuatnya di database lain. Script memakai
+`IF NOT EXISTS`; itu tidak memperbarui tabel yang sudah ada.
 
-     ```bash
-     cd tools
-     npm install
-     ```
+**Penting:** backend saat ini masih memakai bentuk tabel API yang berbeda dan
+query tanpa prefix `absensi_qr`. Menambahkan connection string saja belum
+membuat API kompatibel dengan 31 tabel tersebut. Endpoint perlu dipetakan ke
+struktur baru sebelum aplikasi digunakan dengan schema ini. Lihat
+[backend/README.md](backend/README.md).
 
-2) Run the migration script
+Jangan jalankan [sql/mysql_schema.sql](sql/mysql_schema.sql) di Supabase; file
+tersebut hanya untuk MySQL/phpMyAdmin.
 
-     ```bash
-     node migrate_sqlite_to_mysql.js --sqlite /path/to/absensi_qr.db --mysql-host 127.0.0.1 --mysql-user root --mysql-password your_password --mysql-database absensi
-     ```
-
-     Add `--no-create-schema` if the tables already exist.
-
-Alternative: generate SQL and import manually
-
-1) Create MySQL schema
-
-   - Open your MySQL client and run the file `sql/mysql_schema.sql` to create tables.
-
-     Example (local):
-     ```bash
-     mysql -u root -p < sql/mysql_schema.sql
-     ```
-
-2) Generate a MySQL dump from your local SQLite DB
-
-   - Run the exporter script (requires Python 3):
-     ```bash
-     python tools/export_sqlite_to_mysql.py --sqlite /path/to/absensi_qr.db --out dump_mysql.sql
-     ```
-
-3) Import the generated dump into MySQL
-
-     ```bash
-     mysql -u app_user -p absensi < dump_mysql.sql
-     ```
-
-Notes:
-- The exporter maps missing time values ("-" or empty) to `00:00:00`.
-- The script writes explicit `id` values; if you want to let MySQL reassign ids, edit the dump to remove id columns or import only data without `id` columns.
-- Never commit or share DB credentials. Use environment variables for production.
+Script di `tools/` yang bernama `*_sqlite_to_mysql*` menghasilkan data untuk
+MySQL saja; script tersebut tidak digunakan untuk migrasi ke Supabase.

@@ -20,6 +20,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
   final _nameController = TextEditingController();
   final _nisController = TextEditingController();
   final _classController = TextEditingController();
+  final _parentNameController = TextEditingController();
+  final _parentPhoneController = TextEditingController();
 
   bool _isSaving = false;
 
@@ -33,6 +35,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
       _nameController.text = student.name;
       _nisController.text = student.nis;
       _classController.text = student.className;
+      _parentNameController.text = student.parentName;
+      _parentPhoneController.text = student.parentPhone;
     }
   }
 
@@ -41,6 +45,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
     _nameController.dispose();
     _nisController.dispose();
     _classController.dispose();
+    _parentNameController.dispose();
+    _parentPhoneController.dispose();
     super.dispose();
   }
 
@@ -69,7 +75,10 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
 
     final name = _nameController.text.trim();
     final nis = _nisController.text.trim();
-    final className = _classController.text.trim(); //Menampilkan sebagai QR menggunakan QrImageView, dan menyimpan NIS sebagai QR Code di database.
+    final className = _classController.text
+        .trim(); //Menampilkan sebagai QR menggunakan QrImageView, dan menyimpan NIS sebagai QR Code di database.
+    final parentName = _parentNameController.text.trim();
+    final parentPhone = _parentPhoneController.text.trim();
 
     try {
       final student = Student(
@@ -78,6 +87,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
         nis: nis,
         className: className,
         qrCode: nis,
+        parentName: parentName,
+        parentPhone: parentPhone,
       );
 
       if (_isEdit) {
@@ -100,6 +111,11 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
           content: Text('NIS sudah terdaftar. Gunakan NIS yang berbeda.'),
         ),
       );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal menyimpan siswa: $error')));
     } finally {
       if (mounted) {
         setState(() {
@@ -168,7 +184,8 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
                           border: Border.all(color: Colors.grey[300]!),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Column( //Menampilkan QR Code siswa berdasarkan NIS yang diinputkan.
+                        child: Column(
+                          //Menampilkan QR Code siswa berdasarkan NIS yang diinputkan.
                           children: [
                             const Text(
                               'Preview QR Code:',
@@ -205,6 +222,24 @@ class _StudentFormScreenState extends State<StudentFormScreen> {
                     }
                     return null;
                   },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _parentNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nama Orang Tua/Wali (opsional)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _parentPhoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nomor WhatsApp Orang Tua/Wali (opsional)',
+                    hintText: 'Contoh: 628123456789',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 16),
                 SizedBox(

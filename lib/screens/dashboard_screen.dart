@@ -4,8 +4,11 @@ import '../widgets/app_drawer.dart';
 import 'chat_screen.dart';
 import 'login_screen.dart';
 import 'report_screen.dart';
-import 'scan_screen.dart';
 import 'student_list_screen.dart';
+import 'session_list_screen.dart';
+import 'schedule_screen.dart';
+import 'master_data_screen.dart';
+import 'user_management_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   static const routeName = '/dashboard';
@@ -20,28 +23,39 @@ class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key, required this.role});
 
   void _openStudents(BuildContext context) {
-    Navigator.popUntil(context, (route) => route.isFirst);
     Navigator.pushNamed(context, StudentListScreen.routeName);
   }
 
-  void _openScan(BuildContext context) { //Untuk fungsi membuka scan
-    Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.pushNamed(context, ScanScreen.routeName);
+  void _openScan(BuildContext context) {
+    Navigator.pushNamed(context, SessionListScreen.routeName);
   }
 
   void _openReport(BuildContext context) {
-    Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const ReportScreen()),
-    );
+    Navigator.pushNamed(context, ReportScreen.routeName);
   }
 
-  // QR Generator feature removed per request
+  void _openSchedules(BuildContext context) {
+    Navigator.pushNamed(context, ScheduleScreen.routeName);
+  }
+
+  void _openMasterData(BuildContext context) {
+    Navigator.pushNamed(context, MasterDataScreen.routeName);
+  }
+
+  void _openUserManagement(BuildContext context) {
+    Navigator.pushNamed(context, UserManagementScreen.routeName);
+  }
+
+  void _openChat(BuildContext context) {
+    Navigator.pushNamed(context, ChatScreen.routeName, arguments: role);
+  }
 
   void _logout(BuildContext context) {
-    Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      LoginScreen.routeName,
+      (route) => false,
+    );
   }
 
   @override
@@ -64,15 +78,24 @@ class DashboardScreen extends StatelessWidget {
               onTap: () => _openScan(context),
             ),
             _DashboardMenuItem(
+              title: 'Manajemen Akun',
+              icon: Icons.manage_accounts,
+              onTap: () => _openUserManagement(context),
+            ),
+            _DashboardMenuItem(
+              title: 'Data Master',
+              icon: Icons.settings,
+              onTap: () => _openMasterData(context),
+            ),
+            _DashboardMenuItem(
+              title: 'Jadwal',
+              icon: Icons.calendar_month_rounded,
+              onTap: () => _openSchedules(context),
+            ),
+            _DashboardMenuItem(
               title: 'Chat Bot',
               icon: Icons.chat_rounded,
-              onTap: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ChatScreen(role: role)),
-                );
-              },
+              onTap: () => _openChat(context),
             ),
             _DashboardMenuItem(
               title: 'Laporan Absensi',
@@ -94,13 +117,7 @@ class DashboardScreen extends StatelessWidget {
             _DashboardMenuItem(
               title: 'Chat Bot',
               icon: Icons.chat_rounded,
-              onTap: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ChatScreen(role: role)),
-                );
-              },
+              onTap: () => _openChat(context),
             ),
             _DashboardMenuItem(
               title: 'Laporan Absensi',
@@ -123,6 +140,7 @@ class DashboardScreen extends StatelessWidget {
         onDataSiswa: () => _openStudents(context),
         onScanAbsensi: () => _openScan(context),
         onLaporan: () => _openReport(context),
+        onChat: () => _openChat(context),
         onLogout: () => _logout(context),
       ),
       body: Container(

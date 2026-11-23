@@ -3,7 +3,7 @@ class AppConfig {
 
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: '',
+    defaultValue: 'http://localhost:3000',
   );
 
   static bool get useApi => apiBaseUrl.trim().isNotEmpty;

@@ -7,6 +7,7 @@ class AppDrawer extends StatelessWidget {
   final VoidCallback onDataSiswa;
   final VoidCallback onScanAbsensi;
   final VoidCallback onLaporan;
+  final VoidCallback onChat;
   final VoidCallback onLogout;
 
   const AppDrawer({
@@ -17,6 +18,7 @@ class AppDrawer extends StatelessWidget {
     required this.onDataSiswa,
     required this.onScanAbsensi,
     required this.onLaporan,
+    required this.onChat,
     required this.onLogout,
   });
 
@@ -51,7 +53,10 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.groups_rounded, color: accentColor),
                   title: const Text('Data Siswa'),
-                  onTap: onDataSiswa,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onDataSiswa();
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -59,12 +64,26 @@ class AppDrawer extends StatelessWidget {
                     color: accentColor,
                   ),
                   title: const Text('Scan Absensi'),
-                  onTap: onScanAbsensi,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onScanAbsensi();
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.assignment_rounded, color: accentColor),
                   title: const Text('Laporan Absensi'),
-                  onTap: onLaporan,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onLaporan();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.chat_rounded, color: accentColor),
+                  title: const Text('Chat Bot'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    onChat();
+                  },
                 ),
               ],
             ),
@@ -73,7 +92,10 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout_rounded),
             title: const Text('Logout'),
-            onTap: onLogout,
+            onTap: () {
+              Navigator.of(context).pop();
+              onLogout();
+            },
           ),
         ],
       ),

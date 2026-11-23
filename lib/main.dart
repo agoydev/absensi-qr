@@ -8,6 +8,11 @@ import 'screens/report_screen.dart';
 import 'screens/scan_screen.dart';
 import 'screens/student_list_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/session_list_screen.dart';
+import 'screens/schedule_screen.dart';
+import 'screens/master_data_screen.dart';
+import 'screens/user_management_screen.dart';
+import 'screens/chat_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,8 +68,18 @@ class AbsensiQrApp extends StatelessWidget {
         LoginScreen.routeName: (context) => const LoginScreen(),
         RegisterScreen.routeName: (context) => const RegisterScreen(),
         StudentListScreen.routeName: (context) => const StudentListScreen(),
-        ScanScreen.routeName: (context) => const ScanScreen(), //untuk registrasi siswa, menampilkan daftar siswa, dan scan QR Code siswa untuk absensi.
+        ScanScreen.routeName: (context) =>
+            const ScanScreen(), //untuk registrasi siswa, menampilkan daftar siswa, dan scan QR Code siswa untuk absensi.
         ReportScreen.routeName: (context) => const ReportScreen(),
+        SessionListScreen.routeName: (context) => const SessionListScreen(),
+        ScheduleScreen.routeName: (context) => const ScheduleScreen(),
+        MasterDataScreen.routeName: (context) => const MasterDataScreen(),
+        UserManagementScreen.routeName: (context) =>
+            const UserManagementScreen(),
+        ChatScreen.routeName: (context) {
+          final role = ModalRoute.of(context)?.settings.arguments as String?;
+          return ChatScreen(role: role ?? 'Guru');
+        },
       },
       onGenerateRoute: (settings) {
         if (settings.name == DashboardScreen.routeName) {

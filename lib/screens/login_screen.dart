@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
+import '../config/app_config.dart';
 import 'dashboard_screen.dart';
 import 'register_screen.dart';
 
@@ -37,10 +38,25 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    final role = AuthService.instance.login(
-      _usernameController.text,
-      _passwordController.text,
-    );
+    String? role;
+    try {
+      role = AppConfig.useApi
+          ? await AuthService.instance.cloudLogin(
+              _usernameController.text,
+              _passwordController.text,
+            )
+          : AuthService.instance.login(
+              _usernameController.text,
+              _passwordController.text,
+            );
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      return;
+    }
 
     await Future<void>.delayed(const Duration(milliseconds: 300));
 
@@ -313,9 +329,77 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.black.withAlpha(6),
                                     borderRadius: BorderRadius.circular(14),
                                   ),
-                                  child: const Text(
-                                    'Akun uji coba:\nadmin / admin123\nguru / guru123',
-                                    textAlign: TextAlign.center,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.calendar_month_rounded,
+                                            size: 20,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Flexible(
+                                            child: Text(
+                                              'Sistem Absensi QR Siswa',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        'Kelola kehadiran siswa secara digital, '
+                                        'praktis, cepat, dan akurat.',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodySmall,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 3,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.green.withAlpha(30),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: const Text(
+                                              'Online',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Flexible(
+                                            child: Text(
+                                              'Layanan absensi sekolah',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodySmall,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

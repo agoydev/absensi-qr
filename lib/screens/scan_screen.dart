@@ -3,12 +3,15 @@ import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../models/attendance.dart';
+import '../models/session.dart';
 import '../services/database_service.dart';
 
 class ScanScreen extends StatefulWidget {
   static const routeName = '/scan';
 
-  const ScanScreen({super.key});
+  final AttendanceSession? session;
+
+  const ScanScreen({super.key, this.session});
 
   @override
   State<ScanScreen> createState() => _ScanScreenState();
@@ -17,7 +20,6 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   static const int _onTimeHour = 7;
   static const int _onTimeMinute = 30;
-  static const int _lateGraceMinutes = 15;
   static const Duration _successDialogDuration = Duration(seconds: 2);
 
   final MobileScannerController _controller = MobileScannerController(
@@ -72,28 +74,44 @@ class _ScanScreenState extends State<ScanScreen> {
       final now = DateTime.now();
       final date = DateFormat('yyyy-MM-dd').format(now);
       final time = DateFormat('HH:mm:ss').format(now);
-      final scanMinutes = now.hour * 60 + now.minute;
-      final onTimeMinutes = _onTimeHour * 60 + _onTimeMinute;
-      final lateLimitMinutes = onTimeMinutes + _lateGraceMinutes;
-
-      String status;
-      if (scanMinutes <= onTimeMinutes) {
-        status = 'Hadir';
-      } else if (scanMinutes <= lateLimitMinutes) {
-        status = 'Terlambat';
-      } else {
-        status = 'Tidak Hadir';
+      if (widget.session != null && !widget.session!.isOngoing) {
+        _showMessage('Sesi belum aktif atau sudah ditutup.');
+        return;
       }
 
-      final alreadyAttendance = await DatabaseService.instance
-          .hasAttendanceToday(student.id!, date);
+      final session = widget.session;
+      final startAt = session == null
+          ? null
+          : DateTime.tryParse(session.startAt);
+
+      final onTimeMinutes = startAt == null
+          ? _onTimeHour * 60 + _onTimeMinute
+          : startAt.hour * 60 + startAt.minute;
+      final scanMinutes = now.hour * 60 + now.minute;
+      final graceMinutes = session?.lateAfterMinutes ?? 15;
+      final status = scanMinutes <= onTimeMinutes + graceMinutes
+          ? 'Hadir'
+          : 'Terlambat';
+
+      final alreadyAttendance = session == null
+          ? await DatabaseService.instance.hasAttendanceToday(student.id!, date)
+          : await DatabaseService.instance.hasAttendanceForSession(
+              student.id!,
+              session.id,
+            );
 
       if (alreadyAttendance) {
         if (!mounted) {
           return;
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${student.name} sudah absen hari ini.')),
+          SnackBar(
+            content: Text(
+              session == null
+                  ? '${student.name} sudah absen hari ini.'
+                  : '${student.name} sudah absen pada sesi ini.',
+            ),
+          ),
         );
         return;
       }
@@ -102,6 +120,7 @@ class _ScanScreenState extends State<ScanScreen> {
         Attendance(
           studentId: student.id!,
           studentName: student.name,
+          sessionId: session?.id,
           date: date,
           time: time,
           status: status,
@@ -118,9 +137,18 @@ class _ScanScreenState extends State<ScanScreen> {
         date: date,
         time: time,
       );
+    } catch (error) {
+      _showMessage('Absensi gagal disimpan: $error');
     } finally {
       _isProcessing = false;
     }
+  }
+
+  void _showMessage(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _showSuccessDialog({
@@ -232,16 +260,43 @@ class _ScanScreenState extends State<ScanScreen> {
     return cleaned;
   }
 
+  String _attendanceTimeInstruction() {
+    final session = widget.session;
+    if (session == null) {
+      return '- Batas hadir: 07:30, toleransi terlambat sampai 07:45';
+    }
+
+    final startAt = DateTime.tryParse(session.startAt);
+    final deadline = DateTime.tryParse(session.attendanceDeadline);
+    final startText = startAt == null
+        ? 'waktu mulai sesi'
+        : DateFormat('HH:mm').format(startAt);
+    final graceText = session.lateAfterMinutes <= 0
+        ? 'setelah waktu mulai menjadi terlambat'
+        : 'terlambat setelah toleransi ${session.lateAfterMinutes} menit';
+    final deadlineText = deadline == null
+        ? ''
+        : ', ditutup pukul ${DateFormat('HH:mm').format(deadline)}';
+    return '- Mulai $startText, $graceText$deadlineText';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan Absensi QR')),
+      appBar: AppBar(
+        title: Text(
+          widget.session == null
+              ? 'Scan Absensi QR'
+              : 'Scan ${widget.session!.subjectName}',
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
               flex: 4,
-              child: MobileScanner( //Kamera untuk scan QR Code siswa, dan mengekstraksi NIS dari QR Code.
+              child: MobileScanner(
+                //Kamera untuk scan QR Code siswa, dan mengekstraksi NIS dari QR Code.
                 controller: _controller,
                 onDetect: _onDetect,
               ),
@@ -265,7 +320,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       const Text('- Sistem menyimpan absensi otomatis'),
                       const SizedBox(height: 8),
                       Text(
-                        '- Batas hadir: 07:30, terlambat: 07:45, lewat itu: Tidak Hadir',
+                        _attendanceTimeInstruction(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),

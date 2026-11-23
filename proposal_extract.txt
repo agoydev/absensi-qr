@@ -1,0 +1,706 @@
+ KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN 
+TEKNOLOGI  
+POLITEKNIK NEGERI BALI  
+Jalan Kampus Bukit Jimbaran, Kuta Selatan, Kabupaten Badung, Bali 80364 
+Telp: (0361) 701981 (hunting) Fax. 701128 
+Laman www.pnb.ac.id *Email: poltek@pnb.ac.id 
+Form: MBKM-01 
+ 
+PROPOSAL KEGIATAN MERDEKA BELAJAR 
+Nama Mahasiswa : -     I Putu Restu Dirgayusa     (2415354021) 
+- Maria Diana Heko   (2415354049) 
+- I Komang Nugraha Bagus Saputra Puja  (2415354017)  
+- I Nengah Yoga Permana    (2415354065) 
+  
+Kelas Asal : 5A TRPL 
+Program Studi Asal : Sarjana Terapan Teknologi Rekayasa Perangkat Lunak 
+Nama Kegiatan : Project Based Learning 
+Bentuk Kegiatan : Pengembangan Aplikasi Absensi Siswa Berbasis QR Code 
+   pada Sekolah Menengah Kejuruan 
+Nama Mitra : Program Studi TRPL 
+Tempat : Politeknik Negeri Bali 
+Waktu Pelaksanaan :18 Oktober 2026 – 10 Januari 2027 
+ 
+ 
+1. Latar Belakang 
+ Perkembangan teknologi informasi mendorong institusi pendidikan untuk 
+memanfaatkan sistem digital dalam meningkatkan efektivitas administrasi pembelajaran, 
+termasuk dalam proses pencatatan kehadiran peserta didik. Presensi merupakan salah 
+satu aspek penting dalam memantau kedisi plinan dan partisipasi peserta didik selama 
+kegiatan pembelajaran. Oleh karena itu, pemanfaatan aplikasi absensi berbasis QR Code 
+dapat membantu proses pencatatan kehadiran agar lebih praktis, terstruktur, dan mudah 
+dikelola. 
+
+
+ Pada semester sebelumnya, telah dikembangkan aplikasi presensi berbasis QR Code 
+untuk mendukung proses pencatatan kehadiran di lingkungan pendidikan. Namun, 
+aplikasi tersebut masih memiliki beberapa aspek yang perlu diperbaiki dan 
+dikembangkan agar dapat memenuhi kebutuhan pengguna secara lebih optimal. Dengan 
+demikian, proyek pada semester ini difokuskan pada pengembangan lanjutan dan 
+penyempurnaan aplikasi yang telah dibuat, bukan membangun sistem baru dari awal. 
+ Tujuan utama pengembangan ini adalah meningkatkan keandalan dan fungsionalitas 
+aplikasi melalui perbaikan kesalahan program (bug fixing), penyempurnaan fitur chatbot 
+AI, serta pengembangan mekanisme pencatatan kehadiran berdasarkan setiap sesi 
+pembelajaran. Mekanisme tersebut dirancang dengan mem pertimbangkan jadwal dan 
+durasi pembelajaran agar pencatatan kehadiran lebih akurat, terperinci, dan sesuai dengan 
+pelaksanaan kegiatan pembelajaran. Dengan demikian, sistem diharapkan dapat 
+membantu pengajar memantau kehadiran peserta didik pada setiap se si serta 
+meminimalkan kemungkinan adanya sesi pembelajaran yang belum tercatat 
+kehadirannya. 
+ Selain itu, aplikasi akan dikembangkan dengan integrasi WhatsApp untuk 
+menyampaikan informasi kehadiran kepada orang tua serta fitur rekapitulasi presensi 
+otomatis dalam format Microsoft Excel guna mempermudah pengajar dalam mengelola 
+dan mengevaluasi data kehadiran. Pengembangan ini diharapkan menghasilkan aplikasi 
+presensi yang lebih akurat, praktis, dan informatif serta dapat digunakan pada jenjang 
+sekolah menengah kejuruan maupun perguruan tinggi. 
+2. Permasalahan 
+ Berdasarkan hasil evaluasi terhadap aplikasi absensi berbasis QR Code yang telah 
+dikembangkan sebelumnya, terdapat sejumlah kebutuhan pengembangan yang perlu 
+ditangani untuk meningkatkan kualitas dan fungsi sistem. Permasalahan tersebut 
+dirumuskan sebagai berikut : 
+1. Bagaimana mengidentifikasi kesalahan dan kelemahan aplikasi absensi yang 
+dikembangkan sebelumnya agar aplikasi berjalan sesuai dengan kebutuhan 
+pengguna? 
+2. Bagaimana menyempurnakan fitur chatbot agar dapat memberikan panduan 
+penggunaan dan informasi yang lebih relevan dalam membantu pengguna 
+mengoperasikan aplikasi? 
+
+3. Bagaimana mengembangkan mekanisme pencatatan kehadiran berdasarkan setiap 
+sesi pembelajaran dengan mempertimbangkan jadwal dan durasi pembelajaran? 
+4. Bagaimana mengintegrasikan aplikasi dengan WhatsApp agar sistem dapat 
+mengirimkan pemberitahuan status kehadiran peserta didik kepada orang tua secara 
+tepat waktu? 
+5. Bagaimana mengembangkan fitur pembuatan rekapitulasi kehadiran secara otomatis 
+dalam format Microsoft Excel untuk mempermudah pengajar dalam mengakses dan 
+mengolah data absensi? 
+ 
+3. Tujuan 
+Adapun tujuan dari kegiatan Project Based Learning (PBL) ini adalah sebagai berikut: 
+1. Mengidentifikasi dan memperbaiki kesalahan ( bug) serta kelemahan pada aplikasi 
+absensi berbasis QR Code yang telah dikembangkan sebelumnya guna 
+meningkatkan stabilitas, keandalan, dan kesesuaian fungsi aplikasi dengan 
+kebutuhan pengguna. 
+2. Menyempurnakan fitur chatbot AI agar da pat menyediakan panduan penggunaan 
+aplikasi, menjawab pertanyaan umum, serta membantu pengguna memahami fungsi 
+dan cara pengoperasian aplikasi dengan lebih mudah. 
+3. Mengembangkan mekanisme pencatatan kehadiran berdasarkan sesi pembelajaran 
+sesuai jadwal dan durasi pembelajaran. 
+4. Mengimplementasikan integrasi WhatsApp untuk menyampaikan pemberitahuan 
+status kehadiran peserta didik kepada orang tua berdasarkan data absensi yang 
+tercatat di dalam sistem, sehingga orang tua dapat memperoleh informasi kehadiran 
+anak secara lebih tepat waktu. 
+5. Mengembangkan fitur rekapitulasi dan ekspor data kehadiran secara otomatis ke 
+dalam format Microsoft Excel untuk mempermudah pengajar dalam mengakses, 
+mendokumentasikan, mengolah, dan mengevaluasi data absensi. 
+4. Tinjauan Pustaka 
+4.1 Penelitian Terdahulu 
+Kuhail et al. (2023) dalam penelitian berjudul “Interacting with Educational 
+Chatbots: A Systematic Review”  melakukan tinjauan sistematis terhadap 36 artikel 
+penelitian untuk mengkaji penerapan chatbot dalam bidang pendidikan. Peneliti an 
+
+tersebut menganalisis tujuh aspek, yaitu bidang pendidikan, platform, prinsip 
+perancangan, peran chatbot, pola interaksi, bukti efektivitas, serta keterbatasan 
+penerapannya. Hasil penelitian menunjukkan bahwa chatbot pendidikan berpotensi 
+mendukung pros es pembelajaran dan interaksi pengguna dengan sistem. Dari 36 
+penelitian yang ditinjau, sebanyak 20 penelitian (55,55%) menggunakan chatbot 
+sebagai teaching agent , sedangkan 13 penelitian (36,11%) menggunakan chatbot 
+sebagai peer agent . Meskipun demikian, penelitian tersebut juga mengidentifikasi 
+sejumlah keterbatasan, seperti pelatihan dataset yang belum memadai dan kurangnya 
+penerapan pedoman evaluasi kegunaan sistem. 
+Penelitian tersebut relevan dengan pengembangan aplikasi absensi siswa 
+berbasis QR Code karena memberikan landasan mengenai penerapan chatbot sebagai 
+fitur interaktif dalam lingkungan pendidikan. Dalam proyek ini, chatbot berbasis 
+kecerdasan buatan ( Artificial Intelligence  atau AI) direncanakan untuk membantu 
+guru dan admin memperoleh informa si serta memahami penggunaan fitur aplikasi 
+absensi. Dengan demikian, chatbot diharapkan dapat mempermudah pengguna dalam 
+mengakses informasi melalui interaksi percakapan. Perbedaan penelitian tersebut 
+dengan proyek yang dikembangkan terletak pada fokus pe nerapannya. Kuhail et al. 
+membahas chatbot pendidikan secara umum, sedangkan proyek ini berfokus pada 
+pengembangan aplikasi absensi siswa berbasis QR Code dengan chatbot sebagai fitur 
+pendukung. Oleh karena itu, hasil penelitian Kuhail et al. digunakan sebagai landasan 
+dalam mempertimbangkan peran, pola interaksi, dan aspek kegunaan chatbot pada 
+aplikasi yang dikembangkan. 
+4.2 Defenisi Sistem 
+4.2.1 Sistem Informasi 
+Menurut Laudon dan Laudon (2020), sistem informasi merupakan 
+sekumpulan komponen yang saling berhubungan untuk mengumpulkan, 
+memproses, menyimpan, dan mendistribusikan informasi guna mendukung 
+pengambilan keputusan dan pengendalian dalam organisasi. 
+4.2.2 Quick Response Code (QR Code) 
+QR Code (Quick Response Code) merupakan kode dua dimensi yang dapat 
+menyimpan informasi dan dibaca menggunakan perangkat pemindai. QR 
+Code dikembangkan oleh DENSO WAVE pada tahun 1994 untuk membantu 
+
+proses pembacaan informasi secara cepat. Dalam bidang pendidikan, QR 
+Code dapat dimanfaatkan untuk mendukung pencatatan  kehadiran secara 
+digital. Penelitian Tjahyaningtijas (2024) membahas penggunaan teknologi 
+QR Code untuk pencatatan kehadiran pengguna laboratorium dan 
+menunjukkan manfaatnya dalam mendukung efisiensi serta mengurangi 
+penggunaan kertas. Oleh karena itu, QR  Code dapat diterapkan dalam 
+aplikasi absensi siswa untuk membantu proses pencatatan kehadiran melalui 
+pemindaian kode. 
+4.2.3 Chatbot Berbasis Artificial Intelligence 
+Chatbot berbasis Artificial Intelligence (AI) merupakan aplikasi yang 
+memanfaatkan teknologi ke cerdasan buatan untuk berinteraksi dengan 
+pengguna melalui percakapan. Chatbot dirancang untuk menerima masukan 
+berupa pertanyaan atau perintah dan memberikan respons berdasarkan 
+kemampuan teknologi serta informasi yang tersedia. Menurut Kuhail et al. 
+(2023), chatbot pendidikan telah digunakan dalam berbagai konteks 
+pembelajaran dan memiliki beragam peran dalam mendukung interaksi 
+antara pengguna dengan sistem pendidikan. 
+4.2.4 Sistem Absensi Digital 
+Sistem absensi digital merupakan sistem yang memanfaatkan tekno logi 
+informasi untuk melakukan pencatatan, penyimpanan, pengelolaan, dan 
+penyajian data kehadiran secara elektronik. Penggunaan sistem absensi 
+digital dapat membantu proses pencatatan kehadiran menjadi lebih praktis 
+serta mempermudah pengelolaan dan pencarian data presensi. Fahlevi (2023) 
+mengembangkan sistem informasi kehadiran siswa berbasis Android dengan 
+memanfaatkan QR Code untuk membantu proses pencatatan kehadiran di 
+lingkungan sekolah. 
+4.3 Bahasa Pemrograman yang Digunakan 
+No Bahasa pemrograman/teknologi Fungsi 
+1 Dart Dart merupakan bahasa pemrograman 
+yang dirancang untuk mendukung 
+pengembangan aplikasi pada berbagai 
+platform. Dart menjadi bahasa 
+
+pemrograman utama dalam framework 
+Flutter dan dapat digunakan untuk 
+membangun aplikasi p ada perangkat 
+seluler, web, dan desktop (Dart Team, 
+2026). 
+2 SQL  
+ 
+SQL ( Structured Query Language ) 
+merupakan bahasa yang digunakan 
+untuk mengelola dan memanipulasi data 
+dalam sistem basis data relasional. SQL 
+dapat digunakan untuk membuat 
+struktur tabel, menambahkan data, 
+menampilkan data, memperbarui data, 
+serta menghapus data yang tersimpan di 
+dalam basis data (Oracel 2026). 
+ 
+4.4 Teknologi yang Digunakan 
+ 
+No Teknologi Fungsi 
+1 QR Code Menjadi identitas peserta didik yang 
+dipindai guru untuk melakukan 
+pencatatan kehadiran. 
+2 Database Menyimpan data siswa, guru, orang tua, 
+jadwal pembelajaran, dan catatan 
+kehadiran. 
+3 WhatsApp API / WhatsApp 
+Gateway 
+Mengintegrasikan aplikasi dengan 
+WhatsApp untuk mengirimkan informasi 
+kehadiran kepada orang tua. 
+4 Chatbot AI Memberikan panduan penggunaan 
+aplikasi dan menjawab pertanyaan 
+pengguna terkait fungsi aplikasi. 
+5 Microsoft Excel Digunakan sebagai format ekspor 
+rekapitulasi data kehadiran untuk 
+dokumentasi dan evaluasi. 
+
+6 Web Browser Menjalankan dan menampilkan 
+antarmuka aplikasi web kepada admin 
+dan guru. 
+7 Visual Studio Code atau 
+Android Studio (jika digunakan) 
+Digunakan sebagai lingkungan 
+pengembangan untuk menulis kode, 
+menjalankan, dan menguji aplikasi 
+Flutter. 
+ 
+5. Metode Pengembangan Sistem 
+Metode pengembangan sistem yang digunakan dalam pembuatan aplikasi absensi 
+siswa berbasis QR Code ini adalah metode Waterfall.  Metode Waterfall merupakan 
+salah satu model pengembangan perangkat lunak yang menjalankan tahapan 
+pengembangan secara berurutan. NASA Software Engineering Handbook menjelaskan 
+bahwa siklus pengembangan perangkat lunak perlu memiliki tahapan yang terstruktur 
+dan disesuaikan dengan kebutuhan proyek (National Aeronautics and Space 
+Administration [NASA], n.d.). 
+Adapun tahapan metode Waterfall meliputi: 
+1. Analisis Kebutuhan 
+Mengidentifikasi kebutuhan sistem yang diperlukan dalam aplikasi absensi 
+siswa. 
+2. Perancangan Sistem 
+Membuat desain sistem, database, dan tampilan antarmuka aplikasi. 
+3. Implementasi 
+Mengubah rancangan sistem menjadi program menggunakan Flutter dan SQLite. 
+4. Pengujian 
+Melakukan pengecekan terhadap seluruh fitur aplikasi. 
+5. Pemeliharaan 
+Melakukan perbaikan dan pengembangan sistem jika diperlukan. 
+  
+
+ 
+5.1 Analisis Sistem Berjalan 
+                     
+ 
+Berdasarkan flowmap sistem berjalan, proses absensi di sekolah masih dilakukan 
+secara manual dengan alur sebagai berikut:Siswa membuka aplikasi absensi.  
+
+
+1. Proses Pengelolaan Data Siswa oleh Admin 
+a. Mulai. Admin memulai proses dengan membuka aplikasi. 
+b. Login ke aplikasi. Admin memasukkan informasi login untuk mengakses sistem. 
+c. Pilih menu data siswa. Setelah berhasil login, admin memilih menu untuk 
+   mengelola data siswa. 
+d. Tambah atau input data siswa. Admin memasukkan informasi siswa yang 
+diperlukan, seperti NIS, nama siswa, kelas, dan data lainnya. 
+e. Simpan data siswa. Admin mengirimkan data yang telah dimasukkan untuk 
+diproses oleh sistem. 
+f. Validasi data siswa. Sistem memeriksa kelengkapan dan kebenaran data yang 
+dimasukkan. 
+g. Pemeriksaan validitas data. 
+• Jika data tidak valid, sistem menampilkan pesan gagal memasukkan data. 
+Admin kemudian kembali ke menu data siswa untuk memperbaiki atau 
+memasukkan ulang data. 
+• Jika data valid, sistem melanjutkan proses penyimpanan. 
+h. Simpan data ke database dan buat QR Code. Sistem menyimpan data siswa ke 
+database serta membuat QR Code unik untuk setiap siswa. 
+i. Sediakan QR Code. Sistem mengambil atau menyiapkan QR Code yang telah 
+dibuat. 
+j. Tampilkan data siswa beserta QR Code. Sistem menampilkan informasi siswa dan 
+QR Code yang dapat digunakan untuk proses absensi. 
+2. Proses Pencetakan dan Pembagian Kartu QR Code 
+b. Admin memilih proses cetak kartu QR Code siswa. 
+c. Admin mencetak kartu QR Code siswa. 
+d. Siswa menerima kartu QR Code dari admin. 
+e. Siswa memberikan atau menunjukkan kartu QR Code kepada guru untuk 
+digunakan saat proses absensi. 
+3. Proses Absensi Siswa oleh Guru 
+a. Login ke aplikasi. Guru membuka aplikasi dan melakukan login menggunakan 
+akun guru. 
+
+b. Pilih menu Scan QR Absensi. Setelah berhasil masuk, guru memilih menu 
+pemindaian QR Code untuk melakukan absensi. 
+c. Scan QR Code siswa. Guru memindai QR Code pada kartu siswa menggunakan 
+perangkat yang terhubung dengan aplikasi. 
+d. Validasi QR Code dan waktu absensi. Sistem memeriksa apakah QR Code 
+terdaftar dan apakah waktu pemindaian sesuai dengan ketentuan absensi. 
+e. Pemeriksaan validitas. 
+• Jika data tidak valid, sistem menampilkan pesan kesalahan, misalnya QR Code 
+tidak dikenal atau waktu absensi tidak sesuai. 
+• Jika data valid, sistem melanjutkan proses pencatatan absensi. 
+f. Tampilkan status absensi. Sistem menampilkan status absensi siswa berdasarkan 
+hasil pemindaian, kemudian menyimpan catatan absensi ke database agar dapat 
+digunakan untuk pembuatan laporan. 
+4. Proses Pembuatan Laporan Absensi oleh Admin 
+a. Admin memilih menu laporan absensi. 
+b. Admin memilih filter laporan berdasarkan tanggal, bulan, dan status absensi. 
+c. Sistem mengambil data absensi dari database sesuai dengan filter yang dipilih. 
+d. Sistem menampilkan hasil laporan absensi sesuai kriteria pencarian. 
+e. Admin mencetak laporan absensi untuk digunakan sebagai dokumentasi dan 
+bahan 
+   evaluasi. 
+f.  Selesai. Proses pengelolaan data siswa, pelaksanaan absensi, dan pembuatan 
+laporan 
+5. Peran Setiap Bagian dalam Flowmap 
+Bagian Peran dan tanggung jawab 
+Siswa Menerima kartu QR Code dan memberikannya kepada guru untuk 
+proses absensi. 
+Admin Login, mengelola data siswa, mencetak kartu QR Code, serta 
+mengatur filter dan mencetak laporan absensi. 
+Sistem Memvalidasi data siswa, menghasilkan QR Code, memvalidasi 
+hasil pemindaian, mencatat absensi, dan menampilkan laporan. 
+
+  
+5.2 Analisis Sistem Baru 
+ 
+Berdasarkan Flowmap diagram sistem baru, proses absensi berbasis QR Code berjalan 
+sebagai berikut: 
+1. Proses Login dan Bantuan Chatbot AI 
+a. Proses dimulai ketika admin membuka aplikasi dan melakukan login menggunakan 
+Guru Login ke aplikasi, memilih menu absensi, serta memindai QR 
+Code siswa. 
+Database Menyimpan data siswa, QR Code atau identitas yang terkait, dan 
+catatan absensi yang digunakan dalam laporan. 
+
+
+akun yang dimiliki. 
+b. Setelah berhasil masuk, admin memilih apakah membutuhkan bantuan penggunaan 
+aplikasi. 
+c. Jika admin memilih Ya, sistem menampilkan fitur chatbot AI. 
+d. Pengguna memasukkan pertanyaan atau kendala yang ingin diketahui. 
+e. Sistem memproses pertanyaan tersebut dan menampilkan jawaban atau panduan 
+kepada pengguna. 
+f. Jika admin memilih Tidak, admin melanjutkan penggunaan aplikasi menuju menu 
+pengelolaan data siswa. 
+2. Proses Pengelolaan Data Siswa oleh Admin 
+a. Admin memilih menu pengelolaan data siswa. 
+b. Admin meminta atau mengumpulkan data siswa dan informasi orang tua siswa. 
+c. Admin dapat menambah, mengedit, atau menghapus data siswa serta data orang tua 
+sesuai kebutuhan. 
+d. Admin juga dapat mengelola jadwal dan mata pelajaran. 
+e. Admin memasukkan data orang tua siswa, seperti nama dan nomor telepon. 
+f. Setelah data selesai dimasukkan, admin memilih menu simpan data. 
+g. Sistem melakukan validasi terhadap data siswa yang dimasukkan. 
+h. Sistem memeriksa apakah data sudah valid. 
+• Jika tidak valid, sistem menampilkan pesan kesalahan. Admin perlu 
+memperbaiki data dan mengulangi proses penyimpanan. 
+• Jika valid, sistem menyimpan data ke database. 
+i. Sistem menampilkan QR Code siswa berdasarkan data yang tersimpan. 
+3. Proses Pembuatan dan Pembagian Kartu QR Code 
+a. Setelah data siswa berhasil disimpan, sistem menampilkan QR Code yang 
+berkaitan dengan identitas siswa. 
+b. Admin memilih proses cetak QR Code siswa. 
+c. Sistem menyiapkan QR Code untuk dicetak menjadi kartu siswa. 
+d. Admin mencetak kartu QR Code. 
+e. Siswa menerima kartu QR Code yang telah dicetak. 
+f. Siswa kemudian memberikan atau menunjukkan kartu tersebut kepada guru ketika 
+akan melakukan absensi. 
+
+4. Proses Absensi Siswa oleh Guru 
+a. Guru melakukan login ke aplikasi menggunakan akun guru. 
+b. Setelah berhasil masuk, guru diarahkan ke dashboard guru. 
+c. Guru memilih menu mata pelajaran yang akan dilaksanakan. 
+d. Guru membuka fitur pemindaian QR Code siswa. 
+e. Guru memindai QR Code yang terdapat pada kartu siswa. 
+f. Sistem memeriksa apakah QR Code yang dipindai valid. 
+• Jika tidak valid, sistem menampilkan pesan gagal memindai. Guru dapat 
+mengulangi proses pemindaian. 
+• Jika valid, sistem melanjutkan pencatatan absensi. 
+g. Sistem menyimpan data absensi, termasuk informasi kehadiran, waktu, dan mata 
+kuliah atau mata pelajaran sesuai rancangan aplikasi. 
+h. Sistem memperbarui status kehadiran dan pertemuan. 
+i. Setelah absensi berhasil diproses, sistem menghasilkan notifikasi hasil absensi 
+untuk orang tua siswa. 
+5. Proses Pengiriman Notifikasi kepada Orang Tua Siswa 
+a. Setelah data absensi berhasil dicatat dan status kehadiran diperbarui, sistem 
+menyiapkan notifikasi. 
+b. Sistem mengirimkan informasi hasil absensi kepada orang tua siswa melalui 
+mekanisme notifikasi yang tersedia pada aplikasi. 
+c. Orang tua siswa menerima notifikasi mengenai hasil absensi anaknya. 
+6. Proses Rekapitulasi dan Ekspor Data Absensi 
+a. Admin memilih menu rekap absensi. 
+b. Admin menentukan periode rekapitulasi, misalnya harian, bulanan, atau semester. 
+c. Admin memilih kelas yang akan dibuatkan rekap absensinya. 
+d. Admin memilih mata pelajaran yang ingin direkap. 
+e. Admin memilih menu ekspor Excel. 
+f. Sistem mengambil data absensi dari database berdasarkan periode, kelas, dan mata 
+pelajaran yang dipilih. 
+g. Sistem menghasilkan file Excel berisi rekapitulasi absensi. 
+h. Admin mengunduh file Excel yang telah dihasilkan. 
+i. Setelah file berhasil diunduh, proses rekapitulasi selesai. 
+
+7. Peran Setiap Bagian dalam Flowmap 
+Bagian Peran dan tanggung jawab 
+Siswa Menerima kartu QR Code dan menunjukkannya kepada 
+guru saat absensi. 
+Admin Login, mengelola data siswa dan orang tua, mengatur jadwal 
+serta mata pelajaran, mencetak kartu QR Code, dan 
+mengekspor laporan absensi. 
+Sistem Memproses chatbot AI, memvalidasi data, menghasilkan QR 
+Code, mencatat absensi, memperbarui status kehadiran, 
+mengirim notifikasi, dan membuat file Excel. 
+Guru Login, membuka dashboard, memilih mata pelajaran, dan 
+memindai QR Code siswa untuk mencatat kehadiran. 
+Database Menyimpan data siswa, data orang tua, jadwal, mata 
+pelajaran, serta catatan absensi yang diperlukan oleh 
+aplikasi. 
+Orang Tua Siswa Memberikan informasi yang diperlukan untuk pendataan 
+dan menerima notifikasi hasil absensi anak. 
+ 
+5.3 Perancangan Sistem 
+5.3.1 Use Case Diagram 
+
+                                
+Langkah Kerja masing-masing Aktor: 
+1. Admin 
+a. Admin membuka aplikasi dan melakukan login. 
+b. Admin mengelola data siswa, termasuk menambah, mengubah, dan menghapus 
+data. 
+c. Admin mengelola data orang tua serta jadwal dan mata pelajaran. 
+d. Admin membuat dan mencetak kartu QR Code berdasarkan data siswa. 
+e. Kartu QR Code diberikan kepada siswa. 
+f. Admin melihat atau merekap laporan absensi dan menggunakan fitur ekspor 
+Excel sesuai kebutuhan sistem. 
+g. Admin dapat menggunakan chatbot AI untuk memperoleh bantuan dan informasi 
+jika fitur tersebut tersedia. 
+2. Siswa 
+a. Siswa menerima kartu QR Code dari Admin. 
+
+
+b. Saat kegiatan absensi berlangsung, siswa menunjukkan kartu QR Code kepada 
+Guru. 
+c. Guru memindai QR Code untuk mengidentifikasi siswa dan mencatat 
+kehadirannya. 
+3. Guru 
+a. Guru login ke aplikasi. 
+b. Guru membuka fitur absensi. 
+c. Guru memindai QR Code yang ditunjukkan siswa. 
+d. Sistem memeriksa identitas QR Code dan mengaitkannya dengan data siswa. 
+e. Sistem mencatat status kehadiran, waktu, dan sesi absensi sesuai aturan aplikasi. 
+f. Guru dapat memperbarui status kehadiran jika diperlukan. 
+g. Sistem mengirimkan notifikasi kehadiran kepada orang tua melalui WhatsApp 
+apabila integrasi notifikasi telah diterapkan. 
+h. Guru logout setelah selesai menggunakan aplikasi. 
+4. Orang Tua Siswa 
+a. Orang tua terdaftar dan memiliki informasi kontak WhatsApp yang benar. 
+b. Setelah kehadiran anak tercatat, sistem memproses pengiriman notifikasi. 
+c. Orang tua menerima pemberitahuan mengenai status kehadiran anak melalui 
+WhatsApp. 
+  
+
+ 
+5.3.2 Relasi Antar Tabel 
+ 
+No. Entitas Pertama Relasi Entitas Kedua Kardinalitas Keterangan 
+1 Admin Mengelola Guru 1:N Satu admin 
+dapat 
+mengelola 
+banyak data 
+guru. 
+2 Admin Mencatat Log_Aktivitas 1:N Satu admin 
+dapat 
+memiliki 
+banyak 
+catatan 
+aktivitas. 
+3 Admin Bertanya Chatbot_AI 1:N Satu admin 
+dapat 
+melakukan 
+banyak 
+interaksi 
+dengan 
+chatbot AI. 
+
+
+4 Guru Bertanya Chatbot_AI 1:N Satu guru 
+dapat 
+melakukan 
+banyak 
+interaksi 
+dengan 
+chatbot AI. 
+5 Guru Mengajar Jadwal_Pembelajaran 1:N Satu guru 
+dapat 
+memiliki 
+banyak 
+jadwal 
+mengajar. 
+6 Kelas Memiliki Siswa 1:N Satu kelas 
+dapat 
+memiliki 
+banyak siswa. 
+7 Kelas Memiliki Jadwal_Pembelajaran 1:N Satu kelas 
+dapat 
+memiliki 
+banyak 
+jadwal 
+pembelajaran. 
+8 Mata_Pelajaran Memiliki Jadwal_Pembelajaran 1:N Satu mata 
+pelajaran 
+dapat 
+digunakan 
+dalam banyak 
+jadwal 
+pembelajaran. 
+9 Jadwal_Pembelajaran Memiliki Sesi_Pembelajaran 1:N Satu jadwal 
+pembelajaran 
+dapat 
+memiliki 
+banyak sesi 
+pembelajaran. 
+10 Siswa Memiliki QR_Code 1:1 Setiap siswa 
+memiliki satu 
+QR Code. 
+11 Siswa Melakukan Absensi 1:N Satu siswa 
+dapat 
+memiliki 
+banyak 
+catatan 
+absensi. 
+
+12 Sesi_Pembelajaran Mencatat Absensi 1:N Satu sesi 
+pembelajaran 
+dapat 
+memiliki 
+banyak 
+catatan 
+absensi. 
+13 QR_Code Digunakan 
+untuk 
+Absensi 1:N Satu QR 
+Code dapat 
+digunakan 
+untuk 
+mencatat 
+banyak 
+absensi. 
+14 Absensi Menghasilkan Rekap_Absensi N:1* Banyak 
+catatan 
+absensi dapat 
+dirangkum 
+dalam satu 
+rekap 
+absensi. 
+15 Kelas Memiliki Rekap_Absensi 1:N Satu kelas 
+dapat 
+memiliki 
+banyak rekap 
+absensi. 
+16 Mata_Pelajaran Memiliki Rekap_Absensi 1:N Satu mata 
+pelajaran 
+dapat muncul 
+pada banyak 
+rekap 
+absensi. 
+17 Rekap_Absensi Diekspor 
+menjadi 
+File_Excel 1:N Satu rekap 
+absensi dapat 
+diekspor 
+menjadi 
+beberapa file 
+Excel. 
+18 Absensi Menghasilkan Notifikasi_WA 1:N* Satu catatan 
+absensi dapat 
+menghasilkan 
+notifikasi 
+WhatsApp, 
+termasuk jika 
+notifikasi 
+dikirim 
+ulang. 
+
+19 Orang_Tua Menerima Notifikasi_WA 1:N Satu orang 
+tua dapat 
+menerima 
+banyak 
+notifikasi 
+WhatsApp. 
+20 Orang_Tua Memiliki Siswa 1:N Satu orang 
+tua dapat 
+terhubung 
+dengan 
+beberapa 
+siswa. 
+                       
+5.4 Desain Interface 
+5.4.1 Halaman Login Admin dan Guru 
+  
+Halaman login digunakan sebagai pintu masuk sistem bagi siswa, guru, dan admin. 
+Pengguna wajib memasukkan username dan password yang telah terdaftar. Fitur login 
+digunakan untuk menjaga keamanan data serta membatasi akses sesuai hak pengguna. 
+ 
+ 
+ 
+ 
+ 
+
+
+5.4.2 Dashboard Admin 
+  
+Setelah login berhasil, pengguna diarahkan ke halaman dashboard yang berisi menu 
+utama aplikasi. 
+Menu yang tersedia antara lain: 
+• Scan QR Absensi  
+• Data Siswa  
+• Chat Bot 
+• Laporan Absensi  
+• Logout 
+Dashboard memudahkan pengguna mengakses fitur sistem dengan cepat. 
+6. Hasil dan Pembahasan 
+6.1 Hasil Implementasi Sistem 
+ Setelah melalui tahap analisis, perancangan, dan pembuatan sistem, maka berhasil 
+dikembangkan aplikasi Absensi Siswa Berbasis QR Code berbasis Android menggunakan 
+Flutter dan SQLite. Sistem ini mampu melakukan proses absensi secara digital, cepat, dan 
+efisien. 
+ Aplikasi yang dihasilkan memiliki beberapa  fitur utama, yaitu login pengguna, 
+pengelolaan data siswa, scan QR Code, laporan absensi, dan manajemen data pengguna. 
+6.2 Kebutuhan Perangkat Lunak 
+ 
+Tabel 6.1 menampilkan spesifikasi kebutuhan perangkat lunak yang digunakan dalam 
+proses pembuatan project Absensi Siswa Berbasis QR Code: 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+6.3 Kebutuhan Perangkat Keras 
+Tabel  6.2 menampilkan spesifikasi kebutuhan perangkat Keras yang digunakan dalam 
+proses pembuatan project Absensi Siswa Berbasis QR Code: 
+No Perangkat Keras Fungsi 
+1 Laptop Digunakan untuk pengembangan aplikasi, penulisan kode  
+program, pengelolaan database, dan pengujian sistem. 
+2 Prosesor (CPU) Memproses instruksi program dan menjalankan aplikasi 
+pengembangan. 
+3 RAM Mendukung kelancaran menjalankan IDE, database, 
+browser, dan aplikasi pengujian secara bersamaan. 
+4 SSD atau media 
+penyimpanan 
+Menyimpan kode program, database lokal jika digunakan, 
+dokumen, dan file laporan. 
+5 Smartphone 
+Android 
+Digunakan untuk menguji pemindaian QR Code dan fungsi 
+aplikasi pada perangkat seluler jika aplikasi mendukungnya. 
+6 Kamera smartphone 
+atau webcam 
+Digunakan untuk membaca atau memindai QR Code siswa. 
+7 Printer Digunakan untuk mencetak kartu QR Code siswa 
+8 Modem, router, atau 
+perangkat jaringan 
+Menyediakan koneksi internet untuk mengakses layanan  
+chatbot AI dan WhatsApp Gateway apabila menggunakan 
+layanan daring. 
+ 
+ 
+ 
+ 
+No. Perangkat Lunak Nama Perangkat  
+1 Sistem Operasi Microsoft Windows 11  
+2 Text Editor Visual Studio Code  
+3 Web Server Apache  
+4 Bahasa Pemrograman Dart, SQL  
+5 Basis Data MySQL  
+
+ 
+7. Timeline PBL 
+ 
+ 
+8. Daftar Pustaka 
+1. DENSO WA VE. (n.d.). QR Code development story. https://www.denso-
+wave.com/en/technology/vol1.html 
+2. Kuhail, M. A., Alturki, N., Alramlawi, S., & Alhejori, K. (2023). Interacting with educational 
+chatbots: A systematic  review. Education and Information Technologies, 28, 973 –1018. 
+https://doi.org/10.1007/s10639-022-11177-3 
+3. Laudon, K. C., & Laudon, J. P. (2020). Management information system s: Managing the 
+digital firm (16th ed.). Pearson. 
+4. Tjahyaningtijas, H. P. A. (2024). QR Code technology based laboratory user attendance to 
+improve study program governance. Indonesian Journal of Electrical and Electronics 
+Engineering, 7(1), 1–5. https://doi.org/10.26740/inajeee.v7n1.p1-5 
+5. Dart Team. (2026). Dart overview. Dart Documentation. https://dart.dev/overview 
+6. Oracle. (2026). MySQL 8.4 Reference Manual . MySQL Documentation. 
+https://dev.mysql.com/doc/refman/8.4/en/ 
+7. Fahlevi, F. (2023). Student attendance information system using And roid-based QR Code 
+(Case Study of SMK Negeri 3 Lubuklinggau). JUPITER: Jurnal Penelitian Ilmu dan 
+Teknologi Komputer, 14(2-b), 317–327. https://doi.org/10.5281./5103/5.jupiter.2022.10 
+8. National Aeronautics and Space Administration. (n.d.). SWE-019: Software life cycle. 
+NASA Software Engineering Handbook. 
+https://swehb.nasa.gov/spaces/7150/pages/16449735/SWE-019%2B-
+%2BSoftware%2BLife%2BCycle 
+
+
+Badung, 24 Oktober 2026 
+Penyusun, 
+ 
+I Putu Restu Dirgayusa (2415354021) 
+Maria Diana Heko  (2415354049) 
+I Komang Nugraha Bagus Saputra Puja (2415354057) 
+I Nengah Yoga Permana (2415354065) 
+ 
+Disetujui oleh, 
+ 
+    Ka. Prodi     Dosen Wali 
+                                 
+ 
+         Ni Gusti Ayu Putu Harry Saptarini, S.Kom., M.Cs.                         Dr. Putu Manik Prihatini, S.T.,M.T. 

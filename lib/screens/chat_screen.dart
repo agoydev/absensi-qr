@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ChatScreen extends StatefulWidget {
+  static const routeName = '/chat';
+
   final String role;
 
   const ChatScreen({super.key, required this.role});
@@ -14,6 +16,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<Map<String, String>> _messages = [];
+  final TextEditingController _messageController = TextEditingController();
 
   Map<String, Map<String, String>> _cannedByRole = {};
 
@@ -40,6 +43,12 @@ class _ChatScreenState extends State<ChatScreen> {
     _loadResponses();
   }
 
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadResponses() async {
     try {
       final s = await rootBundle.loadString('assets/responses.json');
@@ -52,29 +61,66 @@ class _ChatScreenState extends State<ChatScreen> {
           );
         }
       });
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _cannedByRole = converted.isNotEmpty ? converted : _defaultCanned;
       });
     } catch (_) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _cannedByRole = _defaultCanned;
       });
     }
   }
 
+  String _findResponse(String text, String roleKey) {
+    final normalized = text.toLowerCase().trim();
+    final responses = _cannedByRole[roleKey] ?? _defaultCanned[roleKey] ?? {};
+
+    for (final entry in responses.entries) {
+      final keywords = entry.key
+          .toLowerCase()
+          .replaceAll(RegExp(r'[^a-z0-9 ]'), ' ')
+          .split(RegExp(r'\s+'))
+          .where((word) => word.length >= 4)
+          .toList();
+      final matchCount = keywords
+          .where((keyword) => normalized.contains(keyword))
+          .length;
+      if (matchCount >= 2 || normalized == entry.key.toLowerCase()) {
+        return entry.value;
+      }
+    }
+
+    return 'Maaf, saya belum memiliki jawaban untuk pertanyaan itu. '
+        'Coba tanyakan tentang absensi QR, laporan, data siswa, '
+        'atau minta bantuan admin.';
+  }
+
   void _sendUserMessage(String text) {
+    final normalizedText = text.trim();
+    if (normalizedText.isEmpty) {
+      return;
+    }
+
+    _messageController.clear();
     setState(() {
-      _messages.add({'who': 'user', 'text': text});
+      _messages.add({'who': 'user', 'text': normalizedText});
     });
 
     final roleKey = widget.role.toLowerCase().contains('admin')
         ? 'admin'
         : 'guru';
-    final resp =
-        _cannedByRole[roleKey]?[text] ??
-        'Maaf, saya belum punya jawaban untuk itu.';
+    final resp = _findResponse(normalizedText, roleKey);
 
     Future.delayed(const Duration(milliseconds: 300), () {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _messages.add({'who': 'bot', 'text': resp});
       });
@@ -132,16 +178,17 @@ class _ChatScreenState extends State<ChatScreen> {
           const Divider(height: 1),
 
           Container(
-            height: 80,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Saran cepat:'),
                 const SizedBox(height: 6),
-                Expanded(
+                SizedBox(
+                  height: 44,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.zero,
                     children: canned.keys.map((k) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
@@ -152,6 +199,29 @@ class _ChatScreenState extends State<ChatScreen> {
                       );
                     }).toList(),
                   ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _messageController,
+                        textInputAction: TextInputAction.send,
+                        onSubmitted: _sendUserMessage,
+                        decoration: const InputDecoration(
+                          hintText: 'Tulis pertanyaan...',
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton.filled(
+                      tooltip: 'Kirim',
+                      onPressed: () =>
+                          _sendUserMessage(_messageController.text),
+                      icon: const Icon(Icons.send),
+                    ),
+                  ],
                 ),
               ],
             ),

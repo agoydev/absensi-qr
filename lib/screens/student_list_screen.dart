@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../models/student.dart';
 import '../services/database_service.dart';
 import '../services/auth_service.dart';
+import '../services/qr_card_pdf_service.dart';
 import 'student_form_screen.dart';
 
 class StudentListScreen extends StatefulWidget {
@@ -18,6 +22,7 @@ class StudentListScreen extends StatefulWidget {
 class _StudentListScreenState extends State<StudentListScreen> {
   bool _isLoading = true;
   List<Student> _students = [];
+  String? _loadError;
 
   @override
   void initState() {
@@ -26,20 +31,20 @@ class _StudentListScreenState extends State<StudentListScreen> {
   }
 
   Future<void> _loadStudents() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    final data = await DatabaseService.instance.getStudents();
-
-    if (!mounted) {
-      return;
+    setState(() => _isLoading = true);
+    try {
+      final data = await DatabaseService.instance.getStudents();
+      if (!mounted) return;
+      setState(() {
+        _students = data;
+        _loadError = null;
+      });
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _loadError = error.toString());
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
-
-    setState(() {
-      _students = data;
-      _isLoading = false;
-    });
   }
 
   Future<void> _openForm({Student? student}) async {
@@ -143,15 +148,84 @@ class _StudentListScreenState extends State<StudentListScreen> {
     );
   }
 
+  Future<void> _shareQrCards({Student? student}) async {
+    final students = student == null ? _students : [student];
+    if (students.isEmpty) {
+      _showMessage('Belum ada data siswa untuk dicetak.');
+      return;
+    }
+
+    try {
+      final bytes = await QrCardPdfService.generate(students);
+      final fileName = student == null
+          ? 'kartu_qr_siswa.pdf'
+          : 'kartu_qr_${student.nis}.pdf';
+      final file = XFile.fromData(
+        Uint8List.fromList(bytes),
+        name: fileName,
+        mimeType: 'application/pdf',
+      );
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [file],
+          fileNameOverrides: [fileName],
+          title: 'Kartu QR Siswa',
+        ),
+      );
+    } catch (error) {
+      if (mounted) {
+        _showMessage('Gagal membuat kartu QR: $error');
+      }
+    }
+  }
+
+  void _showMessage(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final isAdmin = (AuthService.instance.currentRole ?? '')
         .toLowerCase()
         .contains('admin');
     return Scaffold(
-      appBar: AppBar(title: const Text('Data Siswa')),
+      appBar: AppBar(
+        title: const Text('Data Siswa'),
+        actions: [
+          if (_students.isNotEmpty)
+            IconButton(
+              tooltip: 'Cetak semua kartu QR',
+              onPressed: () => _shareQrCards(),
+              icon: const Icon(Icons.picture_as_pdf),
+            ),
+        ],
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
+          : _loadError != null
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Gagal memuat data siswa:\n$_loadError',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    FilledButton.icon(
+                      onPressed: _loadStudents,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Coba lagi'),
+                    ),
+                  ],
+                ),
+              ),
+            )
           : _students.isEmpty
           ? const Center(child: Text('Belum ada data siswa.'))
           : RefreshIndicator(
@@ -178,8 +252,15 @@ class _StudentListScreenState extends State<StudentListScreen> {
                                 if (value == 'delete') {
                                   _deleteStudent(student);
                                 }
+                                if (value == 'print') {
+                                  _shareQrCards(student: student);
+                                }
                               },
                               itemBuilder: (context) => const [
+                                PopupMenuItem(
+                                  value: 'print',
+                                  child: Text('Cetak kartu QR'),
+                                ),
                                 PopupMenuItem(
                                   value: 'edit',
                                   child: Text('Edit'),

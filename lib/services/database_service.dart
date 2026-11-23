@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import 'api_service.dart';
 import '../models/attendance.dart';
 import '../models/student.dart';
+import '../models/session.dart';
+import '../models/schedule.dart';
 
 class DatabaseService {
   DatabaseService._();
@@ -14,7 +16,7 @@ class DatabaseService {
   static final DatabaseService instance = DatabaseService._();
 
   static const _dbName = 'absensi_qr.db';
-  static const _dbVersion = 1;
+  static const _dbVersion = 3;
 
   Database? _database;
   final StreamController<void> _dataChangesController =
@@ -37,6 +39,7 @@ class DatabaseService {
   }
 
   Future<Database> get database async {
+    // Priority 2: Web gunakan in-memory
     if (kIsWeb) {
       throw UnsupportedError(
         'SQLite native tidak digunakan di web. Gunakan metode memory fallback.',
@@ -64,7 +67,9 @@ class DatabaseService {
             name TEXT NOT NULL,
             nis TEXT NOT NULL UNIQUE,
             class_name TEXT NOT NULL,
-            qr_code TEXT NOT NULL UNIQUE
+            qr_code TEXT NOT NULL UNIQUE,
+            parent_name TEXT,
+            parent_phone TEXT
           )
         ''');
 
@@ -76,9 +81,27 @@ class DatabaseService {
             date TEXT NOT NULL,
             time TEXT NOT NULL,
             status TEXT NOT NULL,
+            session_id INTEGER,
+            notes TEXT,
+            recorded_by INTEGER,
             FOREIGN KEY (student_id) REFERENCES students(id)
           )
         ''');
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute(
+            'ALTER TABLE attendance ADD COLUMN session_id INTEGER',
+          );
+          await db.execute('ALTER TABLE attendance ADD COLUMN notes TEXT');
+          await db.execute(
+            'ALTER TABLE attendance ADD COLUMN recorded_by INTEGER',
+          );
+        }
+        if (oldVersion < 3) {
+          await db.execute('ALTER TABLE students ADD COLUMN parent_name TEXT');
+          await db.execute('ALTER TABLE students ADD COLUMN parent_phone TEXT');
+        }
       },
     );
   }
@@ -89,8 +112,13 @@ class DatabaseService {
     }
 
     if (kIsWeb) {
-      final result = List<Student>.from(_memoryStudents) //pencarian siswa berdasarkan QR yang sudah dibuatkan 
-        ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      final result =
+          List<Student>.from(
+              _memoryStudents,
+            ) //pencarian siswa berdasarkan QR yang sudah dibuatkan
+            ..sort(
+              (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+            );
       return result;
     }
 
@@ -152,7 +180,7 @@ class DatabaseService {
       return newStudent.id ?? 0;
     }
 
-    final db = await database;
+    final db = await database; // Priority 3: Default gunakan SQLite
     final id = await db.insert('students', student.toMap());
     _dataChangesController.add(null);
     return id;
@@ -233,6 +261,148 @@ class DatabaseService {
     );
 
     return result.isNotEmpty;
+  }
+
+  Future<bool> hasAttendanceForSession(int studentId, int sessionId) async {
+    if (_useApi) {
+      return ApiService.instance.hasAttendanceForSession(studentId, sessionId);
+    }
+    if (kIsWeb) {
+      return _memoryAttendance.any(
+        (item) => item.studentId == studentId && item.sessionId == sessionId,
+      );
+    }
+    final db = await database;
+    final result = await db.query(
+      'attendance',
+      where: 'student_id = ? AND session_id = ?',
+      whereArgs: [studentId, sessionId],
+      limit: 1,
+    );
+    return result.isNotEmpty;
+  }
+
+  Future<List<AttendanceSession>> getSessions({String? date}) async {
+    if (!_useApi) {
+      return const [];
+    }
+
+    return ApiService.instance.getSessions(date: date);
+  }
+
+  Future<List<SchoolClass>> getClasses() async {
+    if (!_useApi) return const [];
+    return ApiService.instance.getClasses();
+  }
+
+  Future<void> createClass({
+    required String name,
+    required String gradeLevel,
+    required String major,
+    required String schoolYear,
+  }) async {
+    if (!_useApi) {
+      throw StateError('Pengelolaan kelas membutuhkan koneksi ke API cloud.');
+    }
+
+    await ApiService.instance.createClass(
+      name: name,
+      gradeLevel: gradeLevel,
+      major: major,
+      schoolYear: schoolYear,
+    );
+  }
+
+  Future<void> createUser({
+    required String name,
+    required String username,
+    required String password,
+    required String role,
+  }) async {
+    if (!_useApi) {
+      throw StateError('Pengelolaan akun membutuhkan koneksi ke API cloud.');
+    }
+    await ApiService.instance.createUser(
+      name: name,
+      username: username,
+      password: password,
+      role: role,
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> getUsers() async {
+    if (!_useApi) {
+      throw StateError('Daftar akun membutuhkan koneksi ke API cloud.');
+    }
+    return ApiService.instance.getUsers();
+  }
+
+  Future<List<Subject>> getSubjects() async {
+    if (!_useApi) return const [];
+    return ApiService.instance.getSubjects();
+  }
+
+  Future<void> createSubject({
+    required String code,
+    required String name,
+  }) async {
+    if (!_useApi) {
+      throw StateError(
+        'Pengelolaan mata pelajaran membutuhkan koneksi ke API cloud.',
+      );
+    }
+    await ApiService.instance.createSubject(code: code, name: name);
+  }
+
+  Future<List<Teacher>> getTeachers() async {
+    if (!_useApi) return const [];
+    return ApiService.instance.getTeachers();
+  }
+
+  Future<List<Schedule>> getSchedules() async {
+    if (!_useApi) return const [];
+    return ApiService.instance.getSchedules();
+  }
+
+  Future<void> createSchedule({
+    required int classId,
+    required int subjectId,
+    required int teacherId,
+    required int dayOfWeek,
+    required String startTime,
+    required String endTime,
+    required int lateAfterMinutes,
+    required String schoolYear,
+  }) async {
+    if (!_useApi) {
+      throw StateError('Pengelolaan jadwal membutuhkan koneksi ke API cloud.');
+    }
+    await ApiService.instance.createSchedule(
+      classId: classId,
+      subjectId: subjectId,
+      teacherId: teacherId,
+      dayOfWeek: dayOfWeek,
+      startTime: startTime,
+      endTime: endTime,
+      lateAfterMinutes: lateAfterMinutes,
+      schoolYear: schoolYear,
+    );
+  }
+
+  Future<void> updateSessionStatus({
+    required int sessionId,
+    required String status,
+    int? userId,
+  }) async {
+    if (!_useApi) {
+      throw StateError('Sesi pembelajaran membutuhkan koneksi ke API cloud.');
+    }
+    await ApiService.instance.updateSessionStatus(
+      sessionId: sessionId,
+      status: status,
+      userId: userId,
+    );
+    _dataChangesController.add(null);
   }
 
   Future<int> insertAttendance(Attendance attendance) async {
